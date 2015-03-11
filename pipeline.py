@@ -237,8 +237,6 @@ pipeline = Pipeline(
             "item_dir": ItemValue("item_dir"),
             "item_value": ItemValue("item_value"),
             "item_type": ItemValue("item_type"),
-            "item_id": ItemValue("item_id"),
-            "item_name": ItemValue("item_name"),
         }
     ),
     PrepareStatsForTracker(
