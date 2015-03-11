@@ -59,7 +59,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       newurl = string.match(url, "(https://[^%?]+)%?")
       check(newurl)
     end
-    if string.match(url, item_value.."%.trovebox%.com") and not string.match(url, %.jpg) then
+    if string.match(url, item_value.."%.trovebox%.com") and not string.match(url, "%.jpg") then
       html = read_file(file)
       for newurl in string.gmatch(html, '"(https?://[^"]+)"') do
         if string.match(newurl, "\/") then
@@ -74,7 +74,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         newurl = newurl1..newurl2
         check(newurl)
       end
-      for newurl2 in string.gmatch(html, "(/[^"]+)") do
+      for newurl2 in string.gmatch(html, '"(/[^"]+)"') do
         if not string.match(newurl2, "%%") then
           newurl1 = string.match(url, "(https?://[^/]+)/")
           newurl = newurl1..newurl2
@@ -90,19 +90,20 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       end
       if string.match(url, "%.trovebox%.com/albums/") then
         for newalbum in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z])"') do
-          newurl = string.gsub(url, "/albums/", newalbum)
+          https://opensourceecology.trovebox.com/photos/album-23/list
+          newurl = string.gsub(url, "/albums/", "/photos/album%-"..newalbum.."/list")
           check(newurl)
         end
       end
       if string.match(url, "%.trovebox%.com/photos/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") then
         albumid = string.match(url, "%.trovebox%.com/photos/album%-([0-9a-zA-Z][0-9a-zA-Z])")
-        for photoid in string.gmatch(html, '"id":"[0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z]"')
+        for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"')
           newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid
           newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
-          newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid.."?sortBy=dateTaken,asc
-          newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid.."?sortBy=dateTaken,desc
-          newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid.."?sortBy=dateUploaded,asc
-          newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid.."?sortBy=dateUploaded,desc
+          newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid.."?sortBy=dateTaken,asc"
+          newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid.."?sortBy=dateTaken,desc"
+          newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid.."?sortBy=dateUploaded,asc"
+          newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/album-"..albumid.."?sortBy=dateUploaded,desc"
           check(newurl)
           check(newurl0)
           check(newurl1)
