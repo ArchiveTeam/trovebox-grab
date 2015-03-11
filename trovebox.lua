@@ -65,7 +65,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         if string.match(newurl, "\/") then
           newnewurl = string.gsub(newurl, "\/", "/")
           check(newnewurl)
-        elseif string.match(newurl, item_value) or string.match(newurl, "%.jpg") or string.match(newurl, "%.png") or string.match(url, %.cloudfront%.com") then
+        elseif string.match(newurl, item_value) or string.match(newurl, "%.jpg") or string.match(newurl, "%.png") or string.match(url, "%.cloudfront%.com") then
           check(newurl)
         end
       end
