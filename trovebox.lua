@@ -30,7 +30,8 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
   end
   
   if item_type == "site" and (downloaded[url] ~= true and addedtolist[url] ~= true) then
-    if string.match(url, item_value) then
+    if string.match(url, item_value)
+      and not (string.match(url, "%%") or string.match(url, "%%25") then
       return verdict
     elseif html == 0 then
       return verdict
@@ -74,8 +75,10 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         elseif not string.match(url, "%?") then
           local newurl1 = url
         end
-        local newurl = newurl1..newurl2
-        check(newurl)
+        if newurl1:
+          local newurl = newurl1..newurl2
+          check(newurl)
+        end
       end
       for newurl2 in string.gmatch(html, '"(/[^"]+)"') do
         if not string.match(newurl2, "%%") and not string.match(newurl2, "%%25") then
