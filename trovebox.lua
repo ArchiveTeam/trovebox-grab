@@ -47,7 +47,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   local html = nil
   
   local function check(url)
-    if (downloaded[url] ~= true and addedtolist[url] ~= true) then
+    if (downloaded[url] ~= true and addedtolist[url] ~= true) and not string.match(url, "%%") and not string.match(url, "%%25") then
       table.insert(urls, { url=url })
       addedtolist[url] = true
     end
