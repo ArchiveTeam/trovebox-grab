@@ -69,12 +69,15 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         end
       end
       for newurl2 in string.gmatch(html, '"(%?[^"]+)"') do
-        local newurl1 = string.match(url, "(https?://[^%?]+)%?")
+        if string.match(url, "%?") then
+          local newurl1 = string.match(url, "(https?://[^%?]+)%?")
+        elseif not string.match(url, "%?") then
+          local newurl1 = url
         local newurl = newurl1..newurl2
         check(newurl)
       end
       for newurl2 in string.gmatch(html, '"(/[^"]+)"') do
-        if not string.match(newurl2, "%%") then
+        if not string.match(newurl2, "%%") and not string.match(newurl2, "%%25") then
           local newurl1 = string.match(url, "(https?://[^/]+)/")
           local newurl = newurl1..newurl2
           check(newurl)
