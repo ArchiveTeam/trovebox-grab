@@ -73,6 +73,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           local newurl1 = string.match(url, "(https?://[^%?]+)%?")
         elseif not string.match(url, "%?") then
           local newurl1 = url
+        end
         local newurl = newurl1..newurl2
         check(newurl)
       end
