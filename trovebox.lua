@@ -172,7 +172,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   end
   
   if status_code == 500 then
-    io.stdout:write("\nServer returned "..http_stat.statcode..". Sleeping.\n")
+    io.stdout:write("Server returned "..http_stat.statcode..". Sleeping.\n")
     io.stdout:flush()
 
     os.execute("sleep 5")
@@ -180,9 +180,9 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
     tries = tries + 1
 
     if tries >= 3 then
-      io.stdout:write("\nI give up...\n")
+      io.stdout:write("Skip this url...\n")
       io.stdout:flush()
-      return wget.actions.ABORT
+      return wget.actions.EXIT
     else
       return wget.actions.CONTINUE
     end
