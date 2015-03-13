@@ -125,10 +125,10 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           check(newurl9)
         end
       end
-      if string.match(url, "%.trovebox%.com/photos/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") then
+      if string.match(url, "%.trovebox%.com/photos/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") or string.match(url, "%.trovebox%.com/photos/page%-[0-9]+/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") then
         if string.match(url, "/page%-") then
           local albumid = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/album%-[0-9a-zA-Z][0-9a-zA-Z])")
-        else if not string.match(url, "/page%-") then
+        elseif not string.match(url, "/page%-") then
           local albumid = string.match(url, "%.trovebox%.com/photos/(album%-[0-9a-zA-Z][0-9a-zA-Z])")
         end
         for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
