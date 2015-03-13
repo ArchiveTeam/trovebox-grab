@@ -71,8 +71,8 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         end
       end
       for newurl in string.gmatch(html, '"(https?://[^"]+)"') do
-        if string.match(newurl, "\/") then
-          local newnewurl = string.gsub(newurl, "\/", "/")
+        if string.match(newurl, "\\/") then
+          local newnewurl = string.gsub(newurl, "\\/", "/")
           check(newnewurl)
         elseif string.match(newurl, item_value) or string.match(newurl, "%.jpg") or string.match(newurl, "%.png") or string.match(url, "%.cloudfront%.com") then
           check(newurl)
