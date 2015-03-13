@@ -47,7 +47,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   local html = nil
   
   local function check(url)
-    if (downloaded[url] ~= true and addedtolist[url] ~= true) and not string.match(url, "%%") and not string.match(url, "%%25") then
+    if (downloaded[url] ~= true and addedtolist[url] ~= true) and not (string.match(url, "%%") and string.match(url, "%%25")) then
       table.insert(urls, { url=url })
       addedtolist[url] = true
     end
@@ -84,10 +84,8 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         elseif not string.match(url, "%?") then
           local newurl1 = url
         end
-        if newurl1:
-          local newurl = newurl1..newurl2
-          check(newurl)
-        end
+        local newurl = newurl1..newurl2
+        check(newurl)
       end
       for newurl2 in string.gmatch(html, '"(/[^"]+)"') do
         if not string.match(newurl2, "%%") and not string.match(newurl2, "%%25") then
