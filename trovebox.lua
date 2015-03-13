@@ -61,7 +61,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
     if string.match(url, "https?://[^%.]+%.trovebox%.com") and not string.match(url, "%.jpg") then
       html = read_file(file)
       if string.match(url, "/page%-") then
-        local page = string.match(url, "/page%-([0-9]+)"
+        local page = string.match(url, "/page%-([0-9]+)")
         if not string.match(html, "<h4>This user hasn't uploaded any photos, yet%.</h4>") then
           local newurl1 = string.match(url, "(https?://[^/]+/[^/]+/page%-)[0-9]+")
           local newurl2 = string.match(url, "https?://[^/]+/[^/]+/page%-[0-9]+(.+)")
@@ -172,20 +172,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   end
   
   if status_code == 500 and (string.match(url["url"], "%%") or string.match(url["url"], "%%25")) then
-    io.stdout:write("\nServer returned "..http_stat.statcode..". Sleeping.\n")
-    io.stdout:flush()
-
-    os.execute("sleep 5")
-
-    tries = tries + 1
-
-    if tries >= 5 then
-      io.stdout:write("\nSkipping url...\n")
-      io.stdout:flush()
-      return wget.actions.EXIT
-    else
-      return wget.actions.CONTINUE
-    end
+    return wget.actions.EXIT
   elseif status_code >= 500 or
     (status_code >= 400 and status_code ~= 404) then
     io.stdout:write("\nServer returned "..http_stat.statcode..". Sleeping.\n")
