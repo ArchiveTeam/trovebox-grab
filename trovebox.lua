@@ -64,7 +64,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       html = read_file(file)
       if string.match(url, "/page%-") then
         local page = string.match(url, "/page%-([0-9]+)")
-        if not (string.match(html, '"id"') or string.match(url, "/p/")) then
+        if not (string.match(html, '0 photos') or string.match(url, "/p/")) then
           local newurl1 = string.match(url, "(https?://[^/]+/[^/]+/page%-)[0-9]+")
           local newurl2 = string.match(url, "https?://[^/]+/[^/]+/page%-[0-9]+(.+)")
           local newpage = page + 1
