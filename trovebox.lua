@@ -30,9 +30,9 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
   end
   
   if item_type == "site" and (downloaded[url] ~= true and addedtolist[url] ~= true) then
-    if string.match(url, item_value) and not (string.match(url, "%%") and string.match(url, "%%25") and string.match(url, "//") and string.match(url, "%%3E") and string.match(url, ">") and string.match(url, "login%?r=/user/login%?r=")) then
+    if string.match(url, item_value) and not (string.match(url, "%%") and string.match(url, "%%25") and string.match(url, "//") and string.match(url, "%%3E") and string.match(url, ">") and string.match(url, "login%?r")) then
       return verdict
-    elseif html == 0 and not (string.match(url, "%%") and string.match(url, "%%25") and string.match(url, "//") and string.match(url, "%%3E") and string.match(url, ">") and string.match(url, "login%?r=/user/login%?r=")) then
+    elseif html == 0 and not (string.match(url, "%%") and string.match(url, "%%25") and string.match(url, "//") and string.match(url, "%%3E") and string.match(url, ">") and string.match(url, "login%?r")) then
       return verdict
     else
       return false
@@ -48,7 +48,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   local function check(newurl)
     if (downloaded[newurl] ~= true and addedtolist[newurl] ~= true) then
-      if not (string.match(newurl, "%%") and string.match(newurl, "%%25") and string.match(newurl, "//") and string.match(newurl, "%%3E") and string.match(newurl, ">") and string.match(newurl, "login%?r=/user/login%?r=")) then
+      if not (string.match(newurl, "%%") and string.match(newurl, "%%25") and string.match(newurl, "//") and string.match(newurl, "%%3E") and string.match(newurl, ">") and string.match(newurl, "login%?r")) then
         table.insert(urls, { url=newurl })
         addedtolist[newurl] = true
       end
@@ -152,7 +152,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         local tag = string.match(url, "tags%-([^/]+)")
         if string.match(url, "/page%-") then
           local tags1 = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/tags.+)")
-          local tags = string.gsub(albumid1, "/list", "")
+          local tags = string.gsub(tags1, "/list", "")
           for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
             local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags
             local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
@@ -173,7 +173,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           end
         elseif not string.match(url, "/page%-") then
           local tags1 = string.match(url, "%.trovebox%.com/photos/(tags.+)")
-          local tags = string.gsub(albumid1, "/list", "")
+          local tags = string.gsub(tags1, "/list", "")
           for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
             local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags
             local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
