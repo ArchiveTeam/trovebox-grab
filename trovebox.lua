@@ -79,12 +79,12 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           check(newurl)
         end
       end
-      for newurl in string.gmatch(html, '"https?:....[^%.]+%.[^%.]+.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"') do
-        local part1 = string.match(html, '"(https?:)....[^%.]+%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
-        local part2 = string.match(html, '"https?:....([^%.]+%.[^%.]+%.[a-z]+)..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
-        local part3 = string.match(html, '"https?:....[^%.]+%.[^%.]+%.[a-z]+..([0-9a-zA-Z_%-]+)..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
-        local part4 = string.match(html, '"https?:....[^%.]+%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..([0-9a-zA-Z_%-]+)..[^%.]+%.[^"]+"')
-        local part5 = string.match(html, '"https?:....[^%.]+%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..([^%.]+%.[^"]+)"')
+      for newurl in string.gmatch(html, '"https?:....d1odebs29o9vbg%.[^%.]+.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"') do
+        local part1 = string.match(html, '"(https?:)....d1odebs29o9vbg%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
+        local part2 = string.match(html, '"https?:....(d1odebs29o9vbg%.[^%.]+%.[a-z]+)..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
+        local part3 = string.match(html, '"https?:....d1odebs29o9vbg%.[^%.]+%.[a-z]+..([0-9a-zA-Z_%-]+)..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
+        local part4 = string.match(html, '"https?:....d1odebs29o9vbg%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..([0-9a-zA-Z_%-]+)..[^%.]+%.[^"]+"')
+        local part5 = string.match(html, '"https?:....d1odebs29o9vbg%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..([^%.]+%.[^"]+)"')
         local newurl2 = part1.."//"..part2.."/"..part3.."/"..part4.."/"..part5
         io.stdout:write("1 "..newurl2.."\n")
         io.stdout:flush()
