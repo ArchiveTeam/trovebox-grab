@@ -71,8 +71,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           local newurl2 = string.match(url, "https?://[^/]+/[^/]+/page%-[0-9]+(.+)")
           local newpage = page + 1
           local newurl = newurl1..newpage..newurl2
-          io.stdout:write("2 "..newurl.." added.\n")
-          io.stdout:flush()
           check(newurl)
         end
       end
@@ -144,14 +142,14 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
             local newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,desc"
             local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,asc"
             local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,desc"
-            io.stdout:write("9 "..newurl.." added.\n")
-            io.stdout:flush()
+            local newurl5 = "https://"..item_value..".trovebox.com/p/"..photoid.."/download"
             check(newurl)
             check(newurl0)
             check(newurl1)
             check(newurl2)
             check(newurl3)
             check(newurl4)
+            check(newurl5)
           end
         elseif not string.match(url, "/page%-") then
           local albumid = string.match(url, "%.trovebox%.com/photos/(album%-[0-9a-zA-Z][0-9a-zA-Z])")
@@ -162,14 +160,14 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
             local newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,desc"
             local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,asc"
             local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,desc"
-            io.stdout:write("10 "..newurl.." added.\n")
-            io.stdout:flush()
+            local newurl5 = "https://"..item_value..".trovebox.com/p/"..photoid.."/download"
             check(newurl)
             check(newurl0)
             check(newurl1)
             check(newurl2)
             check(newurl3)
             check(newurl4)
+            check(newurl5)
           end
         end
       end
