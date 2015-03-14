@@ -66,7 +66,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       html = read_file(file)
       if string.match(url, "/page%-") then
         local page = string.match(url, "/page%-([0-9]+)")
-        if not string.match(html, "<h4>This user hasn't uploaded any photos, yet%.</h4>") then
+        if not (string.match(html, "<h4>This user hasn't uploaded any photos, yet%.</h4>") and string.match(url, "/p/")) then
           local newurl1 = string.match(url, "(https?://[^/]+/[^/]+/page%-)[0-9]+")
           local newurl2 = string.match(url, "https?://[^/]+/[^/]+/page%-[0-9]+(.+)")
           local newpage = page + 1
@@ -78,6 +78,17 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         if string.match(newurl, item_value) or string.match(newurl, "%.jpg") or string.match(newurl, "%.png") or string.match(url, "%.cloudfront%.com") then
           check(newurl)
         end
+      end
+      for newurl in string.gmatch(html, '"https?:....[^%.]+%.[^%.]+.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"') do
+        local part1 = string.match(html, '"(https?:)....[^%.]+%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
+        local part2 = string.match(html, '"https?:....([^%.]+%.[^%.]+%.[a-z]+)..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
+        local part3 = string.match(html, '"https?:....[^%.]+%.[^%.]+%.[a-z]+..([0-9a-zA-Z_%-]+)..[0-9a-zA-Z_%-]+..[^%.]+%.[^"]+"')
+        local part4 = string.match(html, '"https?:....[^%.]+%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..([0-9a-zA-Z_%-]+)..[^%.]+%.[^"]+"')
+        local part5 = string.match(html, '"https?:....[^%.]+%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..([^%.]+%.[^"]+)"')
+        local newurl2 = part1.."//"..part2.."/"..part3.."/"..part4.."/"..part5
+        io.stdout:write("1 "..newurl2.."\n")
+        io.stdout:flush()
+        check(newurl2)
       end
       for newurl2 in string.gmatch(html, '"(%?[^"]+)"') do
         if string.match(url, "https?://[^%?]+%?") then
@@ -99,11 +110,13 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       end
       if string.match(url, "%.trovebox%.com/p/[0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z]") then
         local photoid = string.match(url, "%.trovebox%.com/p/([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])")
-        local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/download"
+        local newurl = "https://"..item_value..".trovebox.com/photo/"..photoid.."/download"
+        local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid
         check(newurl)
+        check(newurl3)
         for newphotoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
           local newurl1 = "https://"..item_value..".trovebox.com/p/"..newphotoid
-          local newurl2 = "https://"..item_value..".trovebox.com/p/"..newphotoid.."/download"
+          local newurl2 = "https://"..item_value..".trovebox.com/photo/"..newphotoid.."/download"
           check(newurl1)
           check(newurl2)
         end
@@ -132,17 +145,26 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           check(newurl9)
         end
       end
-      if string.match(url, "%.trovebox%.com/photos/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") or string.match(url, "%.trovebox%.com/photos/page%-[0-9]+/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") then
+      if string.match(url, "%.trovebox%.com/photos/tags%-.+") then
+        local part2 = string.match(url, "%.trovebox%.com/photos/tags%-(.+)")
+        local newurl10 = "https://"..item_value..".trovebox.com/photos/page-0/tags-"..part2
+        io.stdout:write("2 "..newurl10.."\n")
+        io.stdout:flush()
+        check(newurl10)
+        local tag = string.match(url, "tags%-([^/]+)")
         if string.match(url, "/page%-") then
-          local albumid = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/album%-[0-9a-zA-Z][0-9a-zA-Z])")
+          local tags1 = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/tags.+)")
+          local tags = string.gsub(albumid1, "/list", "")
           for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
-            local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid
+            local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags
             local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
-            local newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,asc"
-            local newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,desc"
-            local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,asc"
-            local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,desc"
-            local newurl5 = "https://"..item_value..".trovebox.com/p/"..photoid.."/download"
+            local newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateTaken,asc"
+            local newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateTaken,desc"
+            local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateUploaded,asc"
+            local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateUploaded,desc"
+            local newurl5 = "https://"..item_value..".trovebox.com/photo/"..photoid.."/download"
+            io.stdout:write("3 "..newurl.."\n")
+            io.stdout:flush()
             check(newurl)
             check(newurl0)
             check(newurl1)
@@ -152,7 +174,32 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
             check(newurl5)
           end
         elseif not string.match(url, "/page%-") then
-          local albumid = string.match(url, "%.trovebox%.com/photos/(album%-[0-9a-zA-Z][0-9a-zA-Z])")
+          local tags1 = string.match(url, "%.trovebox%.com/photos/(tags.+)")
+          local tags = string.gsub(albumid1, "/list", "")
+          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
+            local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags
+            local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
+            local newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateTaken,asc"
+            local newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateTaken,desc"
+            local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateUploaded,asc"
+            local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateUploaded,desc"
+            local newurl5 = "https://"..item_value..".trovebox.com/photo/"..photoid.."/download"
+            io.stdout:write("4 "..newurl.."\n")
+            io.stdout:flush()
+            check(newurl)
+            check(newurl0)
+            check(newurl1)
+            check(newurl2)
+            check(newurl3)
+            check(newurl4)
+            check(newurl5)
+          end
+        end
+      end
+      if string.match(url, "%.trovebox%.com/photos/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") or string.match(url, "%.trovebox%.com/photos/page%-[0-9]+/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") then
+        if string.match(url, "/page%-") then
+          local albumid1 = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/album%-[0-9a-zA-Z][0-9a-zA-Z])")
+          local albumid = string.gsub(albumid1, "/list", "")
           for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
             local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid
             local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
@@ -160,7 +207,26 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
             local newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,desc"
             local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,asc"
             local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,desc"
-            local newurl5 = "https://"..item_value..".trovebox.com/p/"..photoid.."/download"
+            local newurl5 = "https://"..item_value..".trovebox.com/photo/"..photoid.."/download"
+            check(newurl)
+            check(newurl0)
+            check(newurl1)
+            check(newurl2)
+            check(newurl3)
+            check(newurl4)
+            check(newurl5)
+          end
+        elseif not string.match(url, "/page%-") then
+          local albumid1 = string.match(url, "%.trovebox%.com/photos/(album%-[0-9a-zA-Z][0-9a-zA-Z])")
+          local albumid = string.gsub(albumid1, "/list", "")
+          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
+            local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid
+            local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
+            local newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,asc"
+            local newurl2 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,desc"
+            local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,asc"
+            local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateUploaded,desc"
+            local newurl5 = "https://"..item_value..".trovebox.com/photo/"..photoid.."/download"
             check(newurl)
             check(newurl0)
             check(newurl1)
