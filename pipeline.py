@@ -198,6 +198,7 @@ class WgetArgs(object):
         
         if item_type == 'site':
             wget_args.append('https://{0}.trovebox.com/'.format(item_value))
+            wget_args.append('https://{0}.trovebox.com/photos/page-0/list'.format(item_value))
         else:
             raise Exception('Unknown item')
         
