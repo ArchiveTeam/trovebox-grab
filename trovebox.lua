@@ -30,9 +30,16 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
   end
   
   if item_type == "site" and (downloaded[url] ~= true and addedtolist[url] ~= true) then
-    if string.match(url, item_value) and not (string.match(url, "%%") and string.match(url, "%%25") and string.match(url, "//") and string.match(url, "%%3E") and string.match(url, ">") and string.match(url, "login%?r")) then
+    if not string.match(url, "%%") 
+      and not string.match(url, "%%25") 
+      and not string.match(url, "//") 
+      and not string.match(url, "%%3E") 
+      and not string.match(url, ">") 
+      and not string.match(url, "/login%?r=/user/login%?r") then
+      return false
+    elseif string.match(url, item_value) then
       return verdict
-    elseif html == 0 and not (string.match(url, "%%") and string.match(url, "%%25") and string.match(url, "//") and string.match(url, "%%3E") and string.match(url, ">") and string.match(url, "login%?r")) then
+    elseif html == 0 then
       return verdict
     else
       return false
@@ -48,7 +55,12 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   local function check(newurl)
     if (downloaded[newurl] ~= true and addedtolist[newurl] ~= true) then
-      if not (string.match(newurl, "%%") and string.match(newurl, "%%25") and string.match(newurl, "//") and string.match(newurl, "%%3E") and string.match(newurl, ">") and string.match(newurl, "login%?r")) then
+      if not string.match(url, "%%") 
+      and not string.match(url, "%%25") 
+      and not string.match(url, "//") 
+      and not string.match(url, "%%3E") 
+      and not string.match(url, ">") 
+      and not string.match(url, "/login%?r=/user/login%?r") then
         table.insert(urls, { url=newurl })
         addedtolist[newurl] = true
       end
