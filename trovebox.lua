@@ -48,7 +48,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   local function check(newurl)
     if (downloaded[newurl] ~= true and addedtolist[newurl] ~= true) then
-      if not (string.match(newurl, "%%") and string.match(newurl, "%%25") then
+      if not (string.match(newurl, "%%") and string.match(newurl, "%%25")) then
         table.insert(urls, { url=newurl })
         addedtolist[newurl] = true
       end
