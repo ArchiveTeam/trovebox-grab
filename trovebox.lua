@@ -48,7 +48,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   local function check(newurl)
     if (downloaded[newurl] ~= true and addedtolist[newurl] ~= true) then
-      if not (string.match(newurl, "%%") and string.match(newurl, "%%25")) then
+      if not (string.match(newurl, "%%") and string.match(newurl, "%%25") and string.match(newurl, "//") and string.match(newurl, "%%3E") and string.match(newurl, ">") and string.match(newurl, "login%?r=/user/login%?r=")) then
         table.insert(urls, { url=newurl })
         addedtolist[newurl] = true
       end
@@ -58,8 +58,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   if item_type == "site" then
     if string.match(url, "%?") then
       local newurl = string.match(url, "(https://[^%?]+)%?")
-      io.stdout:write("1 "..newurl.." added.\n")
-      io.stdout:flush()
       check(newurl)
     end
     if string.match(url, "https?://[^%.]+%.trovebox%.com") and not string.match(url, "%.jpg") then
@@ -78,8 +76,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       end
       for newurl in string.gmatch(html, '"(https?://[^"]+)"') do
         if string.match(newurl, item_value) or string.match(newurl, "%.jpg") or string.match(newurl, "%.png") or string.match(url, "%.cloudfront%.com") then
-          io.stdout:write("3 "..newurl.." added.\n")
-          io.stdout:flush()
           check(newurl)
         end
       end
@@ -87,14 +83,10 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         if string.match(url, "https?://[^%?]+%?") then
           local newurl1 = string.match(url, "(https?://[^%?]+)%?")
           local newurl = newurl1..newurl2
-          io.stdout:write("4 "..newurl.." added.\n")
-          io.stdout:flush()
           check(newurl)
         elseif not string.match(url, "https?://[^%?]+%?") then
           local newurl1 = url
           local newurl = newurl1..newurl2
-          io.stdout:write("5 "..newurl.." added.\n")
-          io.stdout:flush()
           check(newurl)
         end
       end
@@ -102,8 +94,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         if not string.match(newurl2, "%%") and not string.match(newurl2, "%%25") then
           local newurl1 = string.match(url, "(https?://[^/]+)/")
           local newurl = newurl1..newurl2
-          io.stdout:write("6 "..newurl.." added.\n")
-          io.stdout:flush()
           check(newurl)
         end
       end
@@ -111,8 +101,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         local photoid = string.match(url, "%.trovebox%.com/p/([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])")
         for newphotoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
           local newurl = "https://"..item_value..".trovebox.com/p/"..newphotoid
-          io.stdout:write("7 "..newurl.." added.\n")
-          io.stdout:flush()
           check(newurl)
         end
       end
@@ -128,8 +116,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           local newurl7 = "https://"..item_value..".trovebox.com/photos/page-0/album-"..newalbum.."/list?sortBy=dateUploaded,asc"
           local newurl8 = "https://"..item_value..".trovebox.com/photos/page-0/album-"..newalbum.."/list?sortBy=dateTaken,asc"
           local newurl9 = "https://"..item_value..".trovebox.com/photos/page-0/album-"..newalbum.."/list?sortBy=dateTaken,desc"
-          io.stdout:write("8 "..newurl.." added.\n")
-          io.stdout:flush()
           check(newurl)
           check(newurl1)
           check(newurl2)
