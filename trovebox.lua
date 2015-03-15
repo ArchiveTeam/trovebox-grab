@@ -62,7 +62,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
     end
     if string.match(url, "https?://[^%.]+%.trovebox%.com") and not string.match(url, "%.jpg") then
       html = read_file(file)
-      if string.match(url, "/page%-") then
+      if string.match(url, "/page%-") and not string.match(url, "/user/login") then
         local page = string.match(url, "/page%-([0-9]+)")
         if not (string.match(html, '0 photos') or string.match(url, "/p/")) then
           local newurl1 = string.match(url, "(https?://[^/]+/[^/]+/page%-)[0-9]+")
@@ -145,7 +145,9 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       end
       if string.match(url, "%.trovebox%.com/photos/tags%-.+") or string.match(url, "%.trovebox%.com/photos/page%-[0-9]+/tags%-.+") then
         local part2 = string.match(url, "%.trovebox%.com/photos/tags%-(.+)")
-        local newurl10 = "https://"..item_value..".trovebox.com/photos/page-0/tags-"..part2
+        if part2 then
+          local newurl10 = "https://"..item_value..".trovebox.com/photos/page-0/tags-"..part2
+        end
         io.stdout:write("2 "..newurl10.."\n")
         io.stdout:flush()
         check(newurl10)
