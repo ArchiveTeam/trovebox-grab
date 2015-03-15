@@ -145,8 +145,8 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         local part2 = string.match(url, "%.trovebox%.com/photos/tags%-(.+)")
         if part2 then
           local newurl10 = "https://"..item_value..".trovebox.com/photos/page-0/tags-"..part2
+          check(newurl10)
         end
-        check(newurl10)
         local tag = string.match(url, "tags%-([^/]+)")
         if string.match(url, "/page%-") then
           local tags1 = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/tags.+)")
@@ -187,6 +187,14 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
             check(newurl4)
             check(newurl5)
           end
+        end
+      end
+      if string.match(url, "/photos/") then
+        for photoid in string.gmatch(url, '"id":"([^"]+)"') do
+          local newurl1 = "https://"..item_value..".trovebox.com/p/"..newphotoid
+          local newurl2 = "https://"..item_value..".trovebox.com/photo/"..newphotoid.."/download"
+          check(newurl1)
+          check(newurl2)
         end
       end
       if string.match(url, "%.trovebox%.com/photos/album%-[0-9a-zA-Z]+/list") or string.match(url, "%.trovebox%.com/photos/page%-[0-9]+/album%-[0-9a-zA-Z]+/list") then
