@@ -64,12 +64,14 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       html = read_file(file)
       if string.match(url, "/page%-") and not string.match(url, "/user/login") then
         local page = string.match(url, "/page%-([0-9]+)")
-        if string.match(html, '"id"') and not (string.match(html, '0 photos') or string.match(url, "/p/")) then
-          local newurl1 = string.match(url, "(https?://[^/]+/[^/]+/page%-)[0-9]+")
-          local newurl2 = string.match(url, "https?://[^/]+/[^/]+/page%-[0-9]+(.+)")
-          local newpage = page + 1
-          local newurl = newurl1..newpage..newurl2
-          check(newurl)
+        if not (string.match(html, '0 photos') or string.match(url, "/p/") or string.match(html, "HTTP 404")) then
+          if string.match(html, "id") then
+            local newurl1 = string.match(url, "(https?://[^/]+/[^/]+/page%-)[0-9]+")
+            local newurl2 = string.match(url, "https?://[^/]+/[^/]+/page%-[0-9]+(.+)")
+            local newpage = page + 1
+            local newurl = newurl1..newpage..newurl2
+            check(newurl)
+          end
         end
       end
       for newurl in string.gmatch(html, '"(https?://[^"]+)"') do
