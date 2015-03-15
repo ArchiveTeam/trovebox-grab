@@ -84,8 +84,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         local part4 = string.match(html, '"https?:....d1odebs29o9vbg%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..([0-9a-zA-Z_%-]+)..[^%.]+%.[^"]+"')
         local part5 = string.match(html, '"https?:....d1odebs29o9vbg%.[^%.]+%.[a-z]+..[0-9a-zA-Z_%-]+..[0-9a-zA-Z_%-]+..([^%.]+%.[^"]+)"')
         local newurl2 = part1.."//"..part2.."/"..part3.."/"..part4.."/"..part5
-        io.stdout:write("1 "..newurl2.."\n")
-        io.stdout:flush()
         check(newurl2)
       end
       for newurl2 in string.gmatch(html, '"(%?[^"]+)"') do
@@ -148,8 +146,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         if part2 then
           local newurl10 = "https://"..item_value..".trovebox.com/photos/page-0/tags-"..part2
         end
-        io.stdout:write("2 "..newurl10.."\n")
-        io.stdout:flush()
         check(newurl10)
         local tag = string.match(url, "tags%-([^/]+)")
         if string.match(url, "/page%-") then
@@ -163,8 +159,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
             local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateUploaded,asc"
             local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateUploaded,desc"
             local newurl5 = "https://"..item_value..".trovebox.com/photo/"..photoid.."/download"
-            io.stdout:write("3 "..newurl.."\n")
-            io.stdout:flush()
             check(newurl)
             check(newurl0)
             check(newurl1)
@@ -185,8 +179,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
             local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateUploaded,asc"
             local newurl4 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateUploaded,desc"
             local newurl5 = "https://"..item_value..".trovebox.com/photo/"..photoid.."/download"
-            io.stdout:write("4 "..newurl.."\n")
-            io.stdout:flush()
             check(newurl)
             check(newurl0)
             check(newurl1)
