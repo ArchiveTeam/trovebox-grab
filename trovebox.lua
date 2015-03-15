@@ -106,13 +106,13 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           check(newurl)
         end
       end
-      if string.match(url, "%.trovebox%.com/p/[0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z]") then
-        local photoid = string.match(url, "%.trovebox%.com/p/([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])")
+      if string.match(url, "%.trovebox%.com/p/[0-9a-zA-Z]+") then
+        local photoid = string.match(url, "%.trovebox%.com/p/([0-9a-zA-Z]+)")
         local newurl = "https://"..item_value..".trovebox.com/photo/"..photoid.."/download"
         local newurl3 = "https://"..item_value..".trovebox.com/p/"..photoid
         check(newurl)
         check(newurl3)
-        for newphotoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
+        for newphotoid in string.gmatch(html, '"id":"([0-9a-zA-Z]+)"') do
           local newurl1 = "https://"..item_value..".trovebox.com/p/"..newphotoid
           local newurl2 = "https://"..item_value..".trovebox.com/photo/"..newphotoid.."/download"
           check(newurl1)
@@ -120,7 +120,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         end
       end
       if string.match(url, "%.trovebox%.com/albums/") then
-        for newalbum in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z])"') do
+        for newalbum in string.gmatch(html, '"id":"([0-9a-zA-Z]+)"') do
           local newurl = "https://"..item_value..".trovebox.com/photos/album-"..newalbum.."/list"
           local newurl1 = "https://"..item_value..".trovebox.com/photos/page-0/album-"..newalbum.."/list"
           local newurl2 = "https://"..item_value..".trovebox.com/photos/album-"..newalbum.."/list?sortBy=dateUploaded,asc"
@@ -155,7 +155,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         if string.match(url, "/page%-") then
           local tags1 = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/tags.+)")
           local tags = string.gsub(tags1, "/list", "")
-          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
+          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z]+)"') do
             local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags
             local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
             local newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateTaken,asc"
@@ -177,7 +177,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         if not string.match(url, "/page%-") then
           local tags1 = string.match(url, "%.trovebox%.com/photos/(tags.+)")
           local tags = string.gsub(tags1, "/list", "")
-          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
+          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z]+)"') do
             local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags
             local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
             local newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..tags.."?sortBy=dateTaken,asc"
@@ -197,11 +197,11 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           end
         end
       end
-      if string.match(url, "%.trovebox%.com/photos/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") or string.match(url, "%.trovebox%.com/photos/page%-[0-9]+/album%-[0-9a-zA-Z][0-9a-zA-Z]/list") then
+      if string.match(url, "%.trovebox%.com/photos/album%-[0-9a-zA-Z]+/list") or string.match(url, "%.trovebox%.com/photos/page%-[0-9]+/album%-[0-9a-zA-Z]+/list") then
         if string.match(url, "/page%-") then
-          local albumid1 = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/album%-[0-9a-zA-Z][0-9a-zA-Z])")
+          local albumid1 = string.match(url, "%.trovebox%.com/photos/(page%-[0-9]+/album%-[0-9a-zA-Z]+)")
           local albumid = string.gsub(albumid1, "/list", "")
-          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
+          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z]+)"') do
             local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid
             local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
             local newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,asc"
@@ -218,9 +218,9 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
             check(newurl5)
           end
         elseif not string.match(url, "/page%-") then
-          local albumid1 = string.match(url, "%.trovebox%.com/photos/(album%-[0-9a-zA-Z][0-9a-zA-Z])")
+          local albumid1 = string.match(url, "%.trovebox%.com/photos/(album%-[0-9a-zA-Z]+)")
           local albumid = string.gsub(albumid1, "/list", "")
-          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z])"') do
+          for photoid in string.gmatch(html, '"id":"([0-9a-zA-Z]+)"') do
             local newurl = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid
             local newurl0 = "https://"..item_value..".trovebox.com/p/"..photoid
             local newurl1 = "https://"..item_value..".trovebox.com/p/"..photoid.."/"..albumid.."?sortBy=dateTaken,asc"
