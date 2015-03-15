@@ -30,9 +30,9 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
   end
   
   if item_type == "site" and (downloaded[url] ~= true and addedtolist[url] ~= true) then
-    if string.match(url, item_value) and not (string.match(url, "%%") or string.match(url, "%%25") or string.match(url, "%%3E") or string.match(url, ">") or string.match(url, "/login%?r=/user/login") or string.match(newurl, "%?[^%?]+%?")) then
+    if string.match(url, item_value) and not (string.match(url, "%%") or string.match(url, "%%25") or string.match(url, "%%3E") or string.match(url, ">") or string.match(url, "/login%?r=/user/login") or string.match(url, "%?[^%?]+%?")) then
       return verdict
-    elseif html == 0 and not (string.match(url, "%%") or string.match(url, "%%25") or string.match(url, "%%3E") or string.match(url, ">") or string.match(url, "/login%?r=/user/login") or string.match(newurl, "%?[^%?]+%?")) then
+    elseif html == 0 and not (string.match(url, "%%") or string.match(url, "%%25") or string.match(url, "%%3E") or string.match(url, ">") or string.match(url, "/login%?r=/user/login") or string.match(url, "%?[^%?]+%?")) then
       return verdict
     else
       return false
