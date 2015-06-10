@@ -57,8 +57,8 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20150317.02"
-USER_AGENT = 'ArchiveTeam'
+VERSION = "20150611.01"
+USER_AGENT = 'ArchiveTeam2'
 TRACKER_ID = 'trovebox'
 TRACKER_HOST = 'tracker.archiveteam.org'
 
